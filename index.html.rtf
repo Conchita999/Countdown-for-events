@@ -1,0 +1,309 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+  <meta charset="UTF-8" />\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\
+  <title>Event Countdown</title>\
+  <style>\
+    :root \{\
+      --bg-color: #0f172a;\
+      --card-color: #111827;\
+      --text-color: #f8fafc;\
+      --muted-color: #cbd5e1;\
+      --accent-color: #38bdf8;\
+      --accent-soft: rgba(56, 189, 248, 0.15);\
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.25);\
+      --radius: 24px;\
+    \}\
+\
+    * \{\
+      box-sizing: border-box;\
+    \}\
+\
+    body \{\
+      margin: 0;\
+      min-height: 100vh;\
+      font-family: Arial, Helvetica, sans-serif;\
+      background:\
+        radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 30%),\
+        linear-gradient(135deg, var(--bg-color), #1e293b);\
+      color: var(--text-color);\
+      display: flex;\
+      align-items: center;\
+      justify-content: center;\
+      padding: 24px;\
+    \}\
+\
+    .countdown-wrap \{\
+      width: 100%;\
+      max-width: 760px;\
+    \}\
+\
+    .card \{\
+      background: rgba(17, 24, 39, 0.92);\
+      backdrop-filter: blur(8px);\
+      border: 1px solid rgba(255, 255, 255, 0.08);\
+      border-radius: var(--radius);\
+      box-shadow: var(--shadow);\
+      padding: 28px;\
+      text-align: center;\
+    \}\
+\
+    .eyebrow \{\
+      display: inline-block;\
+      padding: 8px 14px;\
+      border-radius: 999px;\
+      background: var(--accent-soft);\
+      color: var(--accent-color);\
+      font-size: 14px;\
+      font-weight: 700;\
+      letter-spacing: 0.3px;\
+      margin-bottom: 16px;\
+    \}\
+\
+    h1 \{\
+      margin: 0 0 10px;\
+      font-size: clamp(28px, 5vw, 48px);\
+      line-height: 1.1;\
+    \}\
+\
+    .event-time \{\
+      margin: 0 0 10px;\
+      color: var(--muted-color);\
+      font-size: 16px;\
+    \}\
+\
+    .message \{\
+      margin: 0 auto 28px;\
+      max-width: 560px;\
+      color: var(--muted-color);\
+      font-size: 16px;\
+      line-height: 1.5;\
+    \}\
+\
+    .timer \{\
+      display: grid;\
+      grid-template-columns: repeat(4, 1fr);\
+      gap: 14px;\
+      margin-top: 24px;\
+    \}\
+\
+    .time-box \{\
+      background: rgba(255, 255, 255, 0.04);\
+      border: 1px solid rgba(255, 255, 255, 0.06);\
+      border-radius: 18px;\
+      padding: 22px 12px;\
+    \}\
+\
+    .time-value \{\
+      display: block;\
+      font-size: clamp(28px, 5vw, 42px);\
+      font-weight: 700;\
+      line-height: 1;\
+      margin-bottom: 8px;\
+    \}\
+\
+    .time-label \{\
+      display: block;\
+      font-size: 13px;\
+      text-transform: uppercase;\
+      letter-spacing: 1px;\
+      color: var(--muted-color);\
+    \}\
+\
+    .status \{\
+      margin-top: 24px;\
+      font-size: 18px;\
+      font-weight: 600;\
+      color: var(--accent-color);\
+      min-height: 28px;\
+    \}\
+\
+    .footer-note \{\
+      margin-top: 18px;\
+      font-size: 13px;\
+      color: var(--muted-color);\
+      opacity: 0.85;\
+    \}\
+\
+    @media (max-width: 640px) \{\
+      .card \{\
+        padding: 22px 16px;\
+        border-radius: 20px;\
+      \}\
+\
+      .timer \{\
+        grid-template-columns: repeat(2, 1fr);\
+      \}\
+\
+      .message \{\
+        font-size: 15px;\
+      \}\
+\
+      .status \{\
+        font-size: 17px;\
+      \}\
+    \}\
+  </style>\
+</head>\
+<body>\
+  <div class="countdown-wrap">\
+    <div class="card">\
+      <div class="eyebrow">Countdown</div>\
+      <h1 id="eventName">Garda See Mai 2026</h1>\
+      <p class="event-time" id="eventTimeText"></p>\
+      <p class="message" id="customMessage">\
+        We\'92re getting closer. Pack your bags, the adventure starts soon.\
+      </p>\
+\
+      <div class="timer" id="timer">\
+        <div class="time-box">\
+          <span class="time-value" id="days">0</span>\
+          <span class="time-label">Days</span>\
+        </div>\
+        <div class="time-box">\
+          <span class="time-value" id="hours">0</span>\
+          <span class="time-label">Hours</span>\
+        </div>\
+        <div class="time-box">\
+          <span class="time-value" id="minutes">0</span>\
+          <span class="time-label">Minutes</span>\
+        </div>\
+        <div class="time-box">\
+          <span class="time-value" id="seconds">0</span>\
+          <span class="time-label">Seconds</span>\
+        </div>\
+      </div>\
+\
+      <div class="status" id="statusText"></div>\
+      <div class="footer-note">Share this page link with friends on WhatsApp.</div>\
+    </div>\
+  </div>\
+\
+  <script>\
+    // ==============================\
+    // EASY SETTINGS TO CUSTOMIZE\
+    // ==============================\
+    const settings = \{\
+      eventName: "Garda See Mai 2026",\
+      targetDate: "2026-04-30",     // Format: YYYY-MM-DD\
+      targetTime: "10:00:00",       // Format: HH:MM:SS\
+      timeZone: "Europe/Madrid",    // Example: Europe/Madrid, America/New_York\
+      customMessage: "We\'92re getting closer. Pack your bags, the adventure starts soon.",\
+\
+      theme: \{\
+        bgColor: "#0f172a",\
+        cardColor: "#111827",\
+        textColor: "#f8fafc",\
+        mutedColor: "#cbd5e1",\
+        accentColor: "#38bdf8"\
+      \}\
+    \};\
+\
+    // ==============================\
+    // APPLY CONTENT\
+    // ==============================\
+    document.getElementById("eventName").textContent = settings.eventName;\
+    document.getElementById("customMessage").textContent = settings.customMessage;\
+\
+    // Apply theme colors\
+    document.documentElement.style.setProperty("--bg-color", settings.theme.bgColor);\
+    document.documentElement.style.setProperty("--card-color", settings.theme.cardColor);\
+    document.documentElement.style.setProperty("--text-color", settings.theme.textColor);\
+    document.documentElement.style.setProperty("--muted-color", settings.theme.mutedColor);\
+    document.documentElement.style.setProperty("--accent-color", settings.theme.accentColor);\
+    document.documentElement.style.setProperty(\
+      "--accent-soft",\
+      hexToRgba(settings.theme.accentColor, 0.15)\
+    );\
+\
+    // Build a date display\
+    const displayText = formatEventDateForDisplay(\
+      settings.targetDate,\
+      settings.targetTime,\
+      settings.timeZone\
+    );\
+    document.getElementById("eventTimeText").textContent = displayText;\
+\
+    // ==============================\
+    // COUNTDOWN LOGIC\
+    // ==============================\
+    function getTargetDate() \{\
+      // This creates a reliable target date from the chosen date/time.\
+      // It works well for a simple public countdown page.\
+      return new Date(`$\{settings.targetDate\}T$\{settings.targetTime\}`);\
+    \}\
+\
+    function updateCountdown() \{\
+      const now = new Date();\
+      const target = getTargetDate();\
+      const diff = target - now;\
+\
+      const statusText = document.getElementById("statusText");\
+\
+      if (isNaN(target.getTime())) \{\
+        statusText.textContent = "Invalid date or time. Please check your settings.";\
+        return;\
+      \}\
+\
+      if (diff <= 0) \{\
+        document.getElementById("days").textContent = "0";\
+        document.getElementById("hours").textContent = "0";\
+        document.getElementById("minutes").textContent = "0";\
+        document.getElementById("seconds").textContent = "0";\
+        statusText.textContent = `$\{settings.eventName\} is happening now or has already started.`;\
+        return;\
+      \}\
+\
+      const totalSeconds = Math.floor(diff / 1000);\
+      const days = Math.floor(totalSeconds / (60 * 60 * 24));\
+      const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));\
+      const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);\
+      const seconds = totalSeconds % 60;\
+\
+      document.getElementById("days").textContent = days;\
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");\
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");\
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");\
+\
+      statusText.textContent = `$\{days\} day$\{days !== 1 ? "s" : ""\} to go`;\
+    \}\
+\
+    function formatEventDateForDisplay(dateStr, timeStr, timeZone) \{\
+      const date = new Date(`$\{dateStr\}T$\{timeStr\}`);\
+      if (isNaN(date.getTime())) return "Please enter a valid date and time.";\
+\
+      return new Intl.DateTimeFormat("en-GB", \{\
+        dateStyle: "full",\
+        timeStyle: "short",\
+        timeZone: timeZone\
+      \}).format(date) + ` ($\{timeZone\})`;\
+    \}\
+\
+    function hexToRgba(hex, alpha) \{\
+      let cleanHex = hex.replace("#", "");\
+\
+      if (cleanHex.length === 3) \{\
+        cleanHex = cleanHex.split("").map(char => char + char).join("");\
+      \}\
+\
+      const bigint = parseInt(cleanHex, 16);\
+      const r = (bigint >> 16) & 255;\
+      const g = (bigint >> 8) & 255;\
+      const b = bigint & 255;\
+\
+      return `rgba($\{r\}, $\{g\}, $\{b\}, $\{alpha\})`;\
+    \}\
+\
+    updateCountdown();\
+    setInterval(updateCountdown, 1000);\
+  </script>\
+</body>\
+</html>}
